@@ -52,26 +52,26 @@ jobs:
       - name: 📋 Check exports
         run: |
           echo "🔍 Checking build structure:"
-          echo "📂 CJS files:"
-          find lib/cjs -name "*.js" -o -name "*.d.ts" | head -10
-          echo "📂 ESM files:"
-          find lib/esm -name "*.js" -o -name "*.d.ts" | head -10
+          echo "📂 Dist files:"
+          ls -la dist/
           echo "🔍 Checking main entry points exist:"
-          test -f lib/cjs/index.js && echo "✅ CJS entry point exists"
-          test -f lib/esm/index.js && echo "✅ ESM entry point exists"
-          test -f lib/cjs/index.d.ts && echo "✅ TypeScript declarations exist"
+          test -f dist/index.cjs && echo "✅ CJS bundle exists"
+          test -f dist/index.mjs && echo "✅ ESM bundle exists"
+          test -f dist/index.d.cts && echo "✅ CJS TypeScript declarations exist"
+          test -f dist/index.d.mts && echo "✅ ESM TypeScript declarations exist"
+          test -f dist/index.cjs.map && echo "✅ CJS source map exists"
+          test -f dist/index.mjs.map && echo "✅ ESM source map exists"
           
       - name: 🔍 Verify TypeScript declarations
         run: |
           echo "🔍 Checking TypeScript declarations:"
-          ls -la lib/cjs/*.d.ts
-          ls -la lib/esm/*.d.ts
+          ls -la dist/*.d.cts dist/*.d.mts
           echo "📋 Sample CJS declaration:"
-          head -10 lib/cjs/index.d.ts
+          head -10 dist/index.d.cts
           
       - name: 📊 Build summary
         run: |
           echo "🎉 Build completed successfully!"
-          echo "📦 CJS build size: $(du -sh lib/cjs | cut -f1)"
-          echo "📦 ESM build size: $(du -sh lib/esm | cut -f1)"
-          echo "📦 Total build size: $(du -sh lib | cut -f1)" 
+          echo "📦 Bundle sizes:"
+          du -h dist/index.cjs dist/index.mjs
+          echo "📦 Total build size: $(du -sh dist | cut -f1)" 
