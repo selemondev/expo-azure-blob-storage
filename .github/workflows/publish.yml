@@ -57,11 +57,14 @@ jobs:
       - name: 📋 Verify build output
         run: |
           echo "🔍 Checking build output:"
-          ls -la lib/
-          echo "📂 CJS build:"
-          ls -la lib/cjs/
-          echo "📂 ESM build:"
-          ls -la lib/esm/
+          ls -la dist/
+          echo "🔍 Verifying bundled files:"
+          test -f dist/index.cjs && echo "✅ CJS bundle exists"
+          test -f dist/index.mjs && echo "✅ ESM bundle exists"
+          test -f dist/index.d.cts && echo "✅ CJS TypeScript declarations exist"
+          test -f dist/index.d.mts && echo "✅ ESM TypeScript declarations exist"
+          echo "📦 Bundle sizes:"
+          du -h dist/index.cjs dist/index.mjs
           
       - name: 🔍 Check if version exists
         run: |
