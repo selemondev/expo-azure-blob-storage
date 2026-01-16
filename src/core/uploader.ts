@@ -1,5 +1,5 @@
 import * as FileSystem from 'expo-file-system';
-import { UploadResult, UploadProgress, MediaType, AzureBlobConfig, AzureUploadOptions } from '../types';
+import { UploadResult, UploadProgress, MediaType, AzureBlobConfig, Config } from '../types';
 
 export class AzureBlobUploader {
   private storageAccount: string;
@@ -27,7 +27,7 @@ export class AzureBlobUploader {
   /**
    * Generate unique filename with timestamp
    */
-  generateFileName(originalName: string, mediaType: MediaType = 'image'): string {
+  private generateFileName(originalName: string, mediaType: MediaType = 'image'): string {
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
     const extension = originalName.split('.').pop() || 'jpg';
     const prefix = mediaType === 'video' ? 'vid' : 'img';
@@ -38,7 +38,7 @@ export class AzureBlobUploader {
   /**
    * Get content type based on file extension
    */
-  getContentType(filename: string): string {
+  private getContentType(filename: string): string {
     const ext = filename.split('.').pop()?.toLowerCase();
     const contentTypes: { [key: string]: string } = {
       // Images
@@ -200,6 +200,7 @@ export class AzureBlobUploader {
 
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
+      if(!file) return [];
       const result = await this.uploadWithProgress(
         file.uri,
         file.name,
@@ -227,14 +228,14 @@ export class AzureBlobUploader {
   /**
    * Get blob URL for a filename
    */
-  getBlobUrl(fileName: string): string {
+  private getBlobUrl(fileName: string): string {
     return `${this.baseUrl}/${fileName}`;
   }
 
   /**
    * Get configuration info (without sensitive data)
    */
-  getConfig(): { storageAccount: string; containerName: string; baseUrl: string } {
+  getConfig(): Config {
     return {
       storageAccount: this.storageAccount,
       containerName: this.containerName,

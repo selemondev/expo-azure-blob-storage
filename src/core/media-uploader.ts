@@ -1,7 +1,7 @@
 import * as ImagePicker from 'expo-image-picker';   
 import { Platform } from 'react-native';
 import { AzureBlobUploader } from './uploader';
-import { UploadProgress, UploadResult, AzureBlobConfig, ImagePickerOptions } from '../types';
+import { UploadProgress, UploadResult, AzureBlobConfig, ImagePickerOptions, UploadOptions } from '../types';
 
 export class ExpoImageUploader {
   private uploader: AzureBlobUploader;
@@ -116,7 +116,7 @@ export class ExpoImageUploader {
   /**
    * Process and upload single image from picker result
    */
-  async processAndUploadImage(
+  private async processAndUploadImage(
     result: ImagePicker.ImagePickerResult,
     fileName: string,
     onProgress?: (progress: UploadProgress) => void
@@ -127,7 +127,7 @@ export class ExpoImageUploader {
 
     try {
       const selectedAsset = result.assets[0];
-      const imageUri = selectedAsset.uri;
+      const imageUri = selectedAsset!.uri;
 
       return onProgress
         ? await this.uploader.uploadWithProgress(imageUri, fileName, 'image', onProgress)
@@ -166,11 +166,7 @@ export class ExpoImageUploader {
   /**
    * Quick upload: pick and upload in one step
    */
-  async quickUploadFromLibrary(
-    fileName?: string,
-    options: ImagePickerOptions = {},
-    onProgress?: (progress: UploadProgress) => void
-  ): Promise<UploadResult | null> {
+  async quickUploadFromLibrary({fileName, options = {}, onProgress }: UploadOptions): Promise<UploadResult | null> {
     const pickerResult = await this.pickImageFromLibrary(options);
     return this.processAndUploadImage(
       pickerResult,
@@ -182,11 +178,7 @@ export class ExpoImageUploader {
   /**
    * Quick upload: take photo and upload in one step
    */
-  async quickUploadFromCamera(
-    fileName?: string,
-    options: ImagePickerOptions = {},
-    onProgress?: (progress: UploadProgress) => void
-  ): Promise<UploadResult | null> {
+  async quickUploadFromCamera({fileName, options = {}, onProgress }: UploadOptions): Promise<UploadResult | null> {
     const photoResult = await this.takePhoto(options);
     return this.processAndUploadImage(
       photoResult,
@@ -205,7 +197,7 @@ export class ExpoImageUploader {
   /**
    * Update SAS token
    */
-  updateSasToken(newSasToken: string): void {
+  private updateSasToken(newSasToken: string): void {
     this.uploader.updateSasToken(newSasToken);
   }
 }
