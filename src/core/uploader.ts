@@ -1,5 +1,5 @@
 import * as FileSystem from 'expo-file-system';
-import { UploadResult, UploadProgress, MediaType, AzureBlobConfig, Config } from '../types';
+import type { UploadResult, UploadProgress, MediaType, AzureBlobConfig, Config } from '../types/index.ts';
 
 export class AzureBlobUploader {
   private storageAccount: string;

@@ -1,5 +1,5 @@
-import { ImagePickerResult } from "expo-image-picker";
-import { AzureBlobUploader } from "../core/uploader";
+import type { ImagePickerResult } from "expo-image-picker";
+import { AzureBlobUploader } from "../core/uploader.ts";
 
 export interface UploadProgress {
     totalBytesWritten: number;

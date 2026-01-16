@@ -13,7 +13,8 @@
     "./package.json": "./package.json"
   },
   "scripts": {
-    "build": "tsdown",
+    "build:npm": "tsdown src/index.ts --format esm --format cjs --dts --no-treeshake --sourcemap --exports",
+    "build:jsr": "tsdown src/index.ts --no-treeshake --sourcemap --exports",
     "dev": "tsdown --watch ./src"
   },
   "repository": {

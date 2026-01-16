@@ -1,7 +1,7 @@
 import * as ImagePicker from 'expo-image-picker';   
 import { Platform } from 'react-native';
-import { AzureBlobUploader } from './uploader';
-import { UploadProgress, UploadResult, AzureBlobConfig, ImagePickerOptions, UploadOptions } from '../types';
+import { AzureBlobUploader } from './uploader.ts';
+import type { UploadProgress, UploadResult, AzureBlobConfig, ImagePickerOptions, UploadOptions } from '../types/index.ts';
 
 export class ExpoImageUploader {
   private uploader: AzureBlobUploader;
