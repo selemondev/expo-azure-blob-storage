@@ -200,7 +200,7 @@ export class AzureBlobUploader {
 
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
-      if(!file) return [];
+      if (!file) continue;
       const result = await this.uploadWithProgress(
         file.uri,
         file.name,
