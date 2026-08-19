@@ -90,7 +90,7 @@ export class ExpoImageUploader {
 	 * Pick multiple images from library
 	 */
 	async pickMultipleImagesFromLibrary(
-		options: ImagePickerOptions & { selectionLimit?: number } = {},
+		options: ImagePickerOptions = {},
 	): Promise<ImagePicker.ImagePickerResult> {
 		const permissionGranted = await this.requestMediaLibraryPermission();
 

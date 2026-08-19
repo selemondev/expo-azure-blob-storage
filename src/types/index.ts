@@ -90,7 +90,7 @@ export interface ExpoImageUploaderInterface {
 		options?: ImagePickerOptions,
 	) => Promise<ImagePickerResult>;
 	pickMultipleImagesFromLibrary: (
-		options?: ImagePickerOptions & { selectionLimit?: number },
+		options?: ImagePickerOptions,
 	) => Promise<ImagePickerResult>;
 	takePhoto: (options?: ImagePickerOptions) => Promise<ImagePickerResult>;
 	processAndUploadMultipleImages: (
